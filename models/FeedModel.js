@@ -14,8 +14,7 @@ const FeedSchema = new Schema({
         
     },
     tags: {
-        type: String,
-        required: true
+        type: Array
     },
 
     image:{
@@ -23,13 +22,13 @@ const FeedSchema = new Schema({
     },
 
     likes: {
-        type: Number,
-        default: 0
+        type: Array,
+        default: []
     },
 
     shares: {
-        type: Number,
-        default: 0
+        type: Array,
+        default: []
     },
      
     date: {
@@ -38,6 +37,6 @@ const FeedSchema = new Schema({
     }
 
 
-})
+});
 
-module.exports = Feed = mongoose.model('feed', FeedSchema);
+module.exports = FeedModel = mongoose.model('feed', FeedSchema);
