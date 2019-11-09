@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 // Assign the Schema object
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
+const UserSchema = new Schema({ //Schema is what would go for the data
     firstName : {
         type: String,
         required: true
@@ -31,4 +31,5 @@ const UserSchema = new Schema({
     }
 });
 
-module.exports = User = mongoose.model('user', UserSchema);
+const UserModel = mongoose.model('user', UserSchema);
+module.exports = UserModel;
