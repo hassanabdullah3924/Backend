@@ -63,42 +63,50 @@ router.post('/login', (req, res)=>{
     const email = req.body.email;
     const password = req.body.password;
 
+    // Step 1. Check to see if account with specified email exists
     UserModel
     .findOne({ email: email }) //{}
     .then((theUser)=>{
         if(theUser) {
-            
+            // Step 2. Compare the submittted password with the encrypted 
+            // password in database 
             bcrypt
             .compare(password, theUser.password)
             .then((isMatch)=>{
 
+                // If password is correct
                 console.log(isMatch)
                 if(isMatch) {
 
+                    // Step 3. Decide the payload (encrypted data you want to send back to client)
                     const payload = {
                         id: theUser.id,
                         email: theUser.email
                     }
 
+                    // Step 4. Generate the JSON Web Token
                     jwt.sign(
                         payload,
                         secret,
                         (err, theJWT)=>{
+
+                            // Step 5. Send the JWT to the client 
                             res.json({ token: theJWT })
                         }
                     )
-
+                        // Otherwise, if password is not correct. 
                 } else {
                     res.json({ message: 'Wrong password' })
                 }
             })
             .catch()
 
-
+            // Otheriwse, this account doesn't exists
         } else {
             res.json({ message: "No user with this account exists" })
         }
     })
+    
     .catch()
 
 });
