@@ -1,7 +1,9 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
 const UserModel = require('../models/UserModel');
+const secret = 'thisIsTheSecret';
 
 router.post('/register', (req, res)=>{
 
@@ -54,7 +56,50 @@ router.post('/register', (req, res)=>{
             }
         )
     });
+});
 
+router.post('/login', (req, res)=>{
+
+    const email = req.body.email;
+    const password = req.body.password;
+
+    UserModel
+    .findOne({ email: email }) //{}
+    .then((theUser)=>{
+        if(theUser) {
+            
+            bcrypt
+            .compare(password, theUser.password)
+            .then((isMatch)=>{
+
+                console.log(isMatch)
+                if(isMatch) {
+
+                    const payload = {
+                        id: theUser.id,
+                        email: theUser.email
+                    }
+
+                    jwt.sign(
+                        payload,
+                        secret,
+                        (err, theJWT)=>{
+                            res.json({ token: theJWT })
+                        }
+                    )
+
+                } else {
+                    res.json({ message: 'Wrong password' })
+                }
+            })
+            .catch()
+
+
+        } else {
+            res.json({ message: "No user with this account exists" })
+        }
+    })
+    .catch()
 
 });
 
