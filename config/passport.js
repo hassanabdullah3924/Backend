@@ -5,11 +5,14 @@ const secret = 'thisIsTheSecret';
 
 const UserModel = require('../models/UserModel');
 
+// Options for passport-jwt
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: secret
 };
 
+
+// Create a function for authentication each express request
 const initPassportStrategy = (passport) => {
     const theJwtStrategy = new JwtStrategy(opts, (jwtPayload, done)=>{
         UserModel
