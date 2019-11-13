@@ -25,4 +25,8 @@ router.get('/blog/:page', (req, res)=>{
     res.send("<h1>Welcome to " + page + "</h1>")
 });
 
+router.get('*', (req, res)=>{
+    res.send('<h1>Error404!</h1>')
+});
+
 module.exports = router;

@@ -7,20 +7,21 @@ const passport = require('passport');
 const UserRoutes = require('./routes/UserRoutes');
 const FeedRoutes = require('./routes/FeedRoutes');
 const PageRoutes = require('./routes/PageRoutes');
+const CompanyRoutes = require('./routes/CompanyRoutes');
 
-const initPassportStrategy = require('./config/passport')
+const initPassportStrategy = require('./config/passport') // This is a function we have to bring the configuration
 
 
 // Create an express app
 const app = express();
 
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: false})); //Body Parser sends data
 app.use(bodyParser.json());
-app.use(passport.initialize()); //passport
+app.use(passport.initialize()); //passport telling express first time we are using passport
 initPassportStrategy(passport); //passport-jwt
 
 
-const db = 'mongodb+srv://danyentezari:12345@cluster0-v8v8h.mongodb.net/test?retryWrites=true&w=majority';
+const db = 'mongodb+srv://hassan3924:Pronational1@cluster0-mzvaf.mongodb.net/test?retryWrites=true&w=majority';
 mongoose
 .connect(db, {useNewUrlParser: true, useUnifiedTopology: true}) //Promise
 .then(()=>{
@@ -46,6 +47,12 @@ app.use(
 app.use(
     '/',
     PageRoutes
+);
+
+app.use(
+    '/company',
+        passport.authenticate('jwt', {session: false}),
+    CompanyRoutes
 );
 
 
