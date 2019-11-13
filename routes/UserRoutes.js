@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt'); // Needs the passport and salt to improve the 
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const UserModel = require('../models/UserModel');
-const secret = 'thisIsTheSecret';
+const secret = process.env.SECRET;
 
 router.post('/register', (req, res)=>{
 
