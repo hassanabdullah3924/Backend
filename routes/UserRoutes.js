@@ -1,5 +1,5 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt'); // Needs the passport and salt to improve the complexity of the encrypted data
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const UserModel = require('../models/UserModel');
@@ -24,7 +24,7 @@ router.post('/register', (req, res)=>{
         
         // Step 2. Generate a hashed password using (a) the user's password
         // and (b) the salt
-        bcrypt.hash(
+        bcrypt.hash( // hash can be called  whatever you want
             newUser.password,
             salt,
             (err, hashedPassword)=>{

@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const passport = require('passport');
 
+
+
 const UserRoutes = require('./routes/UserRoutes');
 const FeedRoutes = require('./routes/FeedRoutes');
 const PageRoutes = require('./routes/PageRoutes');
@@ -13,15 +15,15 @@ const initPassportStrategy = require('./config/passport') // This is a function 
 
 
 // Create an express app
-const app = express();
+const app = express(); // Using the express function
 
 app.use(bodyParser.urlencoded({extended: false})); //Body Parser sends data
 app.use(bodyParser.json());
 app.use(passport.initialize()); //passport telling express first time we are using passport
 initPassportStrategy(passport); //passport-jwt
 
-
-const db = 'mongodb+srv://hassan3924:Pronational1@cluster0-mzvaf.mongodb.net/test?retryWrites=true&w=majority';
+// connecting to the data
+const db = process.env.MONGO_URI;
 mongoose
 .connect(db, {useNewUrlParser: true, useUnifiedTopology: true}) //Promise
 .then(()=>{
@@ -31,6 +33,7 @@ mongoose
     console.log('error', err)
 });
  
+
 
 
 app.use(
@@ -56,6 +59,6 @@ app.use(
 );
 
 
-app.listen(3000, ()=>{
+app.listen(process.env.PORT || 3000, ()=>{ // 3000 is the port number. We connect to an IP address
     console.log('You are connected!')
-})
+}) //http://127.0.0.1 (local host)
