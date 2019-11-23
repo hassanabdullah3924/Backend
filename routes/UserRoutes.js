@@ -5,6 +5,8 @@ const router = express.Router();
 const UserModel = require('../models/UserModel');
 const secret = process.env.SECRET;
 
+
+
 router.post('/register', (req, res)=>{
 
     const formData = {

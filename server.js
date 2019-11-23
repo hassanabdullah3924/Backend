@@ -12,6 +12,8 @@ const FeedRoutes = require('./routes/FeedRoutes');
 const PageRoutes = require('./routes/PageRoutes');
 const CompanyRoutes = require('./routes/CompanyRoutes');
 
+
+
 const initPassportStrategy = require('./config/passport') // This is a function we have to bring the configuration
 
 
@@ -40,6 +42,17 @@ mongoose
 app.use(
     '/users', // http://example.com/users/...
     UserRoutes
+);
+
+app.get( 
+    '/feed/all',
+    (req, res)=> {
+        FeedModel.find()
+        .then((users)=>{
+            res.json(users);
+        })
+        .catch((err)=>console.log(err))
+    }
 );
 
 app.use(
